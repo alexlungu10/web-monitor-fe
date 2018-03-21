@@ -1,3 +1,4 @@
+import { RestService } from './service/restService.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'My chart !';
+  restService: RestService;
+  constructor(restService: RestService) {
+    this.restService = restService;
+  }
 
   // lineChart
   public lineChartData: Array<any> = [
@@ -70,21 +75,49 @@ export class AppComponent implements OnInit {
   public randomize(): void {
     console.log('lineChartData: ' + this.lineChartData[0].data);
 
-      this.getFirstSeries().splice(0, 1);
+    this.getFirstSeries().splice(0, 1);
     this.getFirstSeries().push(Math.floor(Math.random() * 100));
 
+    this.refreshFromData(this.getFirstSeries());
+  }
+
+  private refreshFromData(data: any) {
     this.lineChartData = [
       {
-        data: this.getFirstSeries(),
+        data: data,
         label: 'Series A'
       }
     ];
   }
 
+  public getData() {
+    this.restService.getCoinRatesByCoinList('USD,ETH2,ETH3,ETH4,ETH5,ETH6').subscribe((res: any) => {
+      console.log(res);
+      let dataFromServer: Array<number> = new Array<number>();
+      dataFromServer.push(res[0].value);
+      dataFromServer.push(res[1].value);
+      dataFromServer.push(res[2].value);
+      dataFromServer.push(res[3].value);
+      dataFromServer.push(res[4].value);
+      dataFromServer.push(res[5].value);
+      dataFromServer.push(1);
+      dataFromServer.push(1);
+      dataFromServer.push(1);
+      dataFromServer.push(1);
+      dataFromServer.push(1);
+      dataFromServer.push(50);
+      dataFromServer.push(1);
+      dataFromServer.push(50);
+      dataFromServer.push(1);
 
-    private getFirstSeries() {
-        return this.lineChartData[0].data;
-    }
+      this.refreshFromData(dataFromServer);
+    });
+    console.log('getData');
+  }
+
+  private getFirstSeries() {
+    return this.lineChartData[0].data;
+  }
 
   // events
   public chartClicked(e: any): void {
