@@ -1,11 +1,31 @@
-<!--The content below is only a placeholder and can be replaced.-->
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Admin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Monitor</a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
 <div style="text-align:center">
 
-   <div class="card" style="width:35%; height:80%">
+   <div class="card" >
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-11">
         <div style="display: block;">
-        <canvas baseChart width="400" height="400"
+        <canvas baseChart width="400" height="100"
                     [datasets]="lineChartData"
                     [labels]="lineChartLabels"
                     [options]="lineChartOptions"
@@ -17,7 +37,7 @@
         </div>
       </div>
   </div>
-      <div class="col-md-6" style="margin-bottom: 10px">
+      <div class="col-md-11" style="margin-bottom: 10px">
         <table class="table table-responsive table-condensed">
           <tr>
             <th *ngFor="let label of lineChartLabels">{{label}}</th>
@@ -27,8 +47,7 @@
           </tr>
         </table>
         <button (click)="getData()" >Get Data from Back-end</button>
-        <button (click)="randomize()">CLICK</button>
+        <button (click)="randomize()">Add Random Value</button>
       </div>
    </div>
 </div>
-

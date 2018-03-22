@@ -11,7 +11,7 @@ export class RestService {
 
   public getCoinRatesByCoinList(coinList: string): Observable<any> {
     const params: HttpParams = new HttpParams().append('coinListAsCsv', coinList);
-    console.log(params);
+    // console.log(params);
     return this.httpClient.get('http://localhost:8080/getCoinRatesByCoinList', {
       params: params
     });

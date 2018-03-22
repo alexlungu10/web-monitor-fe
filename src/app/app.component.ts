@@ -16,11 +16,9 @@ export class AppComponent implements OnInit {
   // lineChart
   public lineChartData: Array<any> = [
     {
-      data: [10, 55, 11, 81, 56, 55, 40, 88, 22, 11, 55, 22, 99, 33, 2],
+      data: this.getRandomArray(),
       label: 'Series A'
     }
-    // { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-    //{ data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
   ];
   public lineChartLabels: Array<any> = new Array<any>();
   public lineChartOptions: any = {
@@ -29,25 +27,7 @@ export class AppComponent implements OnInit {
   public lineChartColors: Array<any> = [
     {
       // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    {
-      // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
-    {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
+      backgroundColor: 'rgba(125, 34, 189, 0.4)', // 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
       pointBorderColor: '#fff',
@@ -65,18 +45,21 @@ export class AppComponent implements OnInit {
   public calcLabelGrid() {
     this.lineChartLabels = new Array<any>();
     // only one series
-    for (let i = 1; i <= this.lineChartData[0].data.length; i++) {
-      this.lineChartLabels.push(i);
+    for (let i in this.getFirstSeries()) {
+      if (i) {
+        this.lineChartLabels.push(i);
+      }
     }
+    this.lineChartLabels.splice(0, 1);
     console.log('lineChartLabels');
     console.log(this.lineChartLabels);
   }
 
   public randomize(): void {
-    console.log('lineChartData: ' + this.lineChartData[0].data);
+    console.log('lineChartData: ' + this.getFirstSeries());
 
     this.getFirstSeries().splice(0, 1);
-    this.getFirstSeries().push(Math.floor(Math.random() * 100));
+    this.getFirstSeries().push(Math.floor(Math.random() * 1000));
 
     this.refreshFromData(this.getFirstSeries());
   }
@@ -91,28 +74,31 @@ export class AppComponent implements OnInit {
   }
 
   public getData() {
-    this.restService.getCoinRatesByCoinList('USD,ETH2,ETH3,ETH4,ETH5,ETH6').subscribe((res: any) => {
-      console.log(res);
-      let dataFromServer: Array<number> = new Array<number>();
-      dataFromServer.push(res[0].value);
-      dataFromServer.push(res[1].value);
-      dataFromServer.push(res[2].value);
-      dataFromServer.push(res[3].value);
-      dataFromServer.push(res[4].value);
-      dataFromServer.push(res[5].value);
-      dataFromServer.push(1);
-      dataFromServer.push(1);
-      dataFromServer.push(1);
-      dataFromServer.push(1);
-      dataFromServer.push(1);
-      dataFromServer.push(50);
-      dataFromServer.push(1);
-      dataFromServer.push(50);
-      dataFromServer.push(1);
+    console.log('res: ');
+    this.restService
+      .getCoinRatesByCoinList('USD,ETH2,ETH3,ETH4,ETH5,ETH6')
+      .subscribe((res: any) => {
+        console.log(res);
+        const dataByCodeFromServer: Array<number> = new Array<number>();
+        const numberArray: Array<number> = res.USD;
+        for (const key in numberArray) {
+          if (key) {
+            dataByCodeFromServer.push(numberArray[key]);
+          }
+        }
 
-      this.refreshFromData(dataFromServer);
-    });
-    console.log('getData');
+        console.log(dataByCodeFromServer);
+
+        this.refreshFromData(dataByCodeFromServer);
+      });
+  }
+
+  private getRandomArray(): Array<number> {
+    const tempArray: Array<number> = new Array<number>();
+    for (let i = 0; i <= 20; i++) {
+      tempArray.push(Math.floor(Math.random() * 1000));
+    }
+    return tempArray;
   }
 
   private getFirstSeries() {
