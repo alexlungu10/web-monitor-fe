@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'My chart !';
-  restService: RestService;
+  public title = 'My chart !';
+  public restService: RestService;
+  public BTC = 'BTC';
+  public ETH = 'ETH';
+  public XRP = 'XRP';
+  public STR = 'STR';
+  public selectedCode:string=this.BTC;
+
   constructor(restService: RestService) {
     this.restService = restService;
   }
@@ -74,13 +80,15 @@ export class AppComponent implements OnInit {
   }
 
   public getData() {
+    console.log(this.selectedCode);
     console.log('res: ');
     this.restService
-      .getCoinRatesByCoinList('USD,ETH2,ETH3,ETH4,ETH5,ETH6')
+      .getCoinRatesByCoinList('BTC,ETH,XRP,STR')
       .subscribe((res: any) => {
         console.log(res);
+        //console.log(res.coinCode);
         const dataByCodeFromServer: Array<number> = new Array<number>();
-        const numberArray: Array<number> = res.USD;
+        const numberArray: Array<number> = res[this.selectedCode];
         for (const key in numberArray) {
           if (key) {
             dataByCodeFromServer.push(numberArray[key]);
@@ -96,6 +104,7 @@ export class AppComponent implements OnInit {
   private getRandomArray(): Array<number> {
     const tempArray: Array<number> = new Array<number>();
     for (let i = 0; i <= 20; i++) {
+      // TODO check
       tempArray.push(Math.floor(Math.random() * 1000));
     }
     return tempArray;

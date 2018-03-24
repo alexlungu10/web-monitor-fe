@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RestService } from './service/restService.service';
+import {  FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,7 @@ import { RestService } from './service/restService.service';
     AppComponent
   ],
   imports: [
-    BrowserModule, ChartsModule, HttpClientModule
+    BrowserModule, ChartsModule, HttpClientModule,FormsModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

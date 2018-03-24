@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -21,33 +19,37 @@
 
 <div style="text-align:center">
 
-   <div class="card" >
+  <div class="card">
     <div class="row">
       <div class="col-md-11">
         <div style="display: block;">
-        <canvas baseChart width="400" height="100"
-                    [datasets]="lineChartData"
-                    [labels]="lineChartLabels"
-                    [options]="lineChartOptions"
-                    [colors]="lineChartColors"
-                    [legend]="lineChartLegend"
-                    [chartType]="lineChartType"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart width="400" height="100" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+            [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
+    </div>
+    <div class="col-md-11" style="margin-bottom: 10px">
+      <table class="table table-responsive table-condensed">
+        <tr>
+          <th *ngFor="let label of lineChartLabels">{{label}}</th>
+        </tr>
+        <tr *ngFor="let d of lineChartData">
+          <td *ngFor="let label of lineChartLabels; let j=index">{{ d.data[j]}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
-      <div class="col-md-11" style="margin-bottom: 10px">
-        <table class="table table-responsive table-condensed">
-          <tr>
-            <th *ngFor="let label of lineChartLabels">{{label}}</th>
-          </tr>
-          <tr *ngFor="let d of lineChartData">
-            <td *ngFor="let label of lineChartLabels; let j=index">{{ d.data[j]}}</td>
-          </tr>
-        </table>
-        <button (click)="getData()" >Get Data from Back-end</button>
-        <button (click)="randomize()">Add Random Value</button>
-      </div>
-   </div>
+
+  <select class="custom-select"  [(ngModel)]="selectedCode">
+    <option [value]="BTC" >{{BTC}}</option>
+    <option [value]="ETH">{{ETH}}</option>
+    <option [value]="XRP">{{XRP}}</option>
+    <option [value]="STR">{{STR}}</option>
+  </select>
+
+    <button class="btn btn-light" (click)="getData()">Get Data from Back-End</button>
+    <button class="btn btn-light" (click)="randomize()">Get Random Data from Front-End</button>
+
+
 </div>
